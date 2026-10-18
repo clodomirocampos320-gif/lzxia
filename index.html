@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#100d18">
+<title>Lzxia — IA para edits</title>
+<style>
+:root{--bg:#100d18;--panel:#191423;--panel2:#211a2e;--line:#342a45;--text:#f7f3ff;--muted:#a69bb8;--purple:#a66bff;--purple2:#7545d6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100dvh}
+.app{max-width:760px;margin:auto;min-height:100dvh;display:flex;flex-direction:column}
+header{position:sticky;top:0;z-index:5;background:#100d18ee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:16px 16px 13px;display:flex;align-items:center;gap:12px}
+.logo{height:45px;width:45px;border-radius:15px;background:linear-gradient(135deg,#c39aff,#7138d4);display:grid;place-items:center;font-size:22px;font-weight:900;box-shadow:0 5px 22px #8c4aff35}
+.brand{flex:1}.brand h1{font-size:19px;margin:0;letter-spacing:.3px}.brand p{margin:3px 0 0;color:#bba8d6;font-size:12px}.online{font-size:11px;color:#83e4b0;display:flex;align-items:center;gap:5px}.dot{height:7px;width:7px;background:#53d994;border-radius:50%}
+main{padding:20px 15px 18px;flex:1}.welcome{padding:20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#211831,#171321);margin-bottom:19px}.welcome .spark{font-size:25px}.welcome h2{font-size:23px;margin:8px 0}.welcome p{color:#c6bad7;line-height:1.55;font-size:14px;margin:0}
+.section-title{font-size:13px;color:#bfb2d0;margin:20px 2px 10px;font-weight:700;letter-spacing:.3px}
+.commands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.cmd{background:var(--panel);border:1px solid var(--line);border-radius:15px;color:var(--text);padding:13px 12px;text-align:left;min-height:68px;cursor:pointer;font:inherit;transition:.15s}
+.cmd:active,.cmd.selected{border-color:var(--purple);background:#2a1d3e;transform:scale(.99)}.cmd strong{display:block;font-size:13px}.cmd span{display:block;font-size:11px;color:var(--muted);margin-top:5px}
+.chat{display:flex;flex-direction:column;gap:12px;margin:19px 0}.msg{max-width:90%;padding:13px 14px;border-radius:17px;font-size:14px;line-height:1.5;white-space:pre-wrap}.bot{background:var(--panel2);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}.user{background:linear-gradient(135deg,#7b43d7,#9a5cf2);align-self:flex-end;border-bottom-right-radius:5px}.small{font-size:11px;color:var(--muted);margin-top:7px}
+.upload-preview{display:none;margin-top:12px;padding:10px;border:1px dashed #72539a;border-radius:13px;color:#d9c9f0;font-size:12px;align-items:center;gap:10px}.upload-preview.show{display:flex}.file-icon{font-size:22px}
+.composer{position:sticky;bottom:0;padding:12px 13px calc(12px + env(safe-area-inset-bottom));background:#100d18ee;backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.tools{display:flex;gap:8px;margin-bottom:9px}.tool{background:var(--panel);border:1px solid var(--line);color:#ded2ef;border-radius:12px;padding:9px 11px;font-size:12px;cursor:pointer}.inputrow{display:flex;gap:8px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);padding:7px;border-radius:18px}.attach{height:42px;width:42px;flex:0 0 42px;border:0;background:#2c223a;color:#d8c2ff;border-radius:13px;font-size:22px;cursor:pointer}.inputrow textarea{resize:none;max-height:110px;min-height:42px;flex:1;background:transparent;color:var(--text);border:0;outline:0;font:inherit;font-size:14px;padding:11px 4px}.send{height:42px;width:45px;border:0;border-radius:13px;background:var(--purple);color:white;font-size:19px;font-weight:800;cursor:pointer}.send:disabled{opacity:.4}.note{text-align:center;font-size:10px;color:#80758f;margin-top:8px;line-height:1.4}
+.toast{display:none;background:#342346;border:1px solid #7953a2;color:#eee1ff;border-radius:12px;padding:11px;font-size:12px;margin-top:10px}.toast.show{display:block}
+@media(min-width:600px){main{padding:25px}.commands{grid-template-columns:repeat(3,minmax(0,1fr))}.cmd{min-height:75px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">L</div>
+  <div class="brand"><h1>Lzxia IA</h1><p>Seu parceiro de criação para edits</p></div>
+  <div class="online"><span class="dot"></span> Online</div>
+</header>
+<main>
+  <section class="welcome">
+    <h2>🎬 Lzxia IA online. Sou seu parceiro de criação para edição de vídeos.</h2>
+    <p>Mande o comando e anexe o clipe/foto da galeria — eu aplico na hora.</p>
+    <p style="margin-top:14px">Comandos: Topaz · 4K/UHD · Reverse · Motion Blur · Color Grade · Slow Motion · Tracking.</p>
+  </section>
+  <div class="section-title">COMANDOS</div>
+  <div class="commands" id="commands">
+    <button class="cmd" data-command="Topaz"><strong>Topaz</strong></button>
+    <button class="cmd" data-command="4K"><strong>4K</strong></button>
+    <button class="cmd" data-command="UHD"><strong>UHD</strong></button>
+    <button class="cmd" data-command="Reverse"><strong>Reverse</strong></button>
+    <button class="cmd" data-command="Motion Blur"><strong>Motion Blur</strong></button>
+    <button class="cmd" data-command="Color Grade"><strong>Color Grade</strong></button>
+    <button class="cmd" data-command="Slow Motion"><strong>Slow Motion</strong></button>
+    <button class="cmd" data-command="Tracking"><strong>Tracking</strong></button>
+  </div>
+  <div class="section-title">CONVERSA</div>
+  <div class="chat" id="chat">
+    <div class="msg bot">Lzxia online. Sou sua parceira de criação para edits.\n\nAnexe um clipe/foto e escreva o que deseja fazer. Este protótipo já permite testar a interface e os comandos; para editar arquivos de verdade, ainda será necessário conectar um serviço de IA e processamento de vídeo.</div>
+  </div>
+  <div class="upload-preview" id="preview"><span class="file-icon">🎞️</span><span id="filename">Arquivo selecionado</span></div>
+  <div class="toast" id="toast"></div>
+</main>
+<div class="composer">
+  <div class="tools"><button class="tool" id="videoTool">＋ Enviar vídeo/foto</button><button class="tool" id="clearTool">Limpar conversa</button></div>
+  <input type="file" id="file" accept="video/*,image/*" hidden>
+  <div class="inputrow">
+    <button class="attach" id="attach" aria-label="Anexar arquivo">＋</button>
+    <textarea id="prompt" rows="1" placeholder="Ex.: faz reverse sincronizado..."></textarea>
+    <button class="send" id="send" aria-label="Enviar">➤</button>
+  </div>
+  <div class="note">Protótipo Lzxia • Os efeitos reais precisam de uma conexão de processamento.</div>
+</div>
+</div>
+<script>
+const chat=document.getElementById('chat'),promptBox=document.getElementById('prompt'),fileInput=document.getElementById('file'),preview=document.getElementById('preview'),filename=document.getElementById('filename'),toast=document.getElementById('toast');
+let chosenFile=null;
+function addMsg(text,who='bot'){const el=document.createElement('div');el.className='msg '+who;el.textContent=text;chat.appendChild(el);el.scrollIntoView({behavior:'smooth',block:'nearest'});return el}
+function showToast(text){toast.textContent=text;toast.classList.add('show')}
+function pickFile(){fileInput.click()}
+document.getElementById('attach').onclick=pickFile;document.getElementById('videoTool').onclick=pickFile;
+fileInput.addEventListener('change',()=>{chosenFile=fileInput.files[0]||null;if(chosenFile){filename.textContent=chosenFile.name+' • '+(chosenFile.size/1024/1024).toFixed(1)+' MB';preview.classList.add('show');showToast('Arquivo anexado nesta demonstração. Ele ainda não foi enviado a um servidor de edição.')}else{preview.classList.remove('show')}});
+document.querySelectorAll('.cmd').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cmd').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');promptBox.value=btn.dataset.command;promptBox.focus();}));
+async function send(){const text=promptBox.value.trim();if(!text&&!chosenFile)return;let userText=text||'Analise este arquivo e sugira uma edição.';if(chosenFile)userText+='\\n📎 '+chosenFile.name;addMsg(userText,'user');promptBox.value='';promptBox.style.height='auto';document.querySelectorAll('.cmd').forEach(b=>b.classList.remove('selected'));if(!chosenFile){addMsg('Anexe um vídeo para eu poder processá-lo.','bot');return;}const wait=addMsg('Preparando sua edição… aguarde enquanto o vídeo é processado.','bot');try{const data=new FormData();data.append('file',chosenFile);data.append('prompt',text||'');const response=await fetch('/api/edit',{method:'POST',body:data});if(!response.ok){let detail='Não consegui processar o vídeo.';try{const err=await response.json();detail=err.detail||detail}catch{}throw new Error(detail)}const blob=await response.blob();const url=URL.createObjectURL(blob);wait.textContent='Sua edição está pronta! Toque no link para salvar o vídeo.';const link=document.createElement('a');link.href=url;link.download='lzxia-edit.mp4';link.textContent='⬇ Baixar vídeo editado';link.style.display='inline-block';link.style.marginTop='10px';link.style.color='#e4d0ff';link.style.fontWeight='700';wait.appendChild(document.createElement('br'));wait.appendChild(link)}catch(err){wait.textContent='Não consegui processar: '+err.message+'\\n\\nEste projeto precisa estar rodando no servidor com FFmpeg instalado. Veja o README para iniciar.'}}
+document.getElementById('send').onclick=send;
+promptBox.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+promptBox.addEventListener('input',()=>{promptBox.style.height='auto';promptBox.style.height=Math.min(promptBox.scrollHeight,110)+'px'});
+document.getElementById('clearTool').onclick=()=>{chat.innerHTML='';addMsg('Conversa limpa. Envie um clipe/foto e escolha um comando para começar.');chosenFile=null;fileInput.value='';preview.classList.remove('show');toast.classList.remove('show');document.querySelectorAll('.cmd').forEach(b=>b.classList.remove('selected'))};
+</script>
+</body>
+</html>
